@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1><%= title %></h1>
+
+    <form action="/crear-persona" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="tipoPersona">Tipo de Persona:</label>
+        <select id="tipoPersona" name="tipoPersona" required>
+            <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+        </select>
+
+        <label for="tipoDocumento">Tipo de Documento:</label>
+        <select id="tipoDocumento" name="tipoDocumento" required>
+            <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+        </select>
+
+        <label>Contactos:</label>
+        <div id="contactos">
+            <!-- Aquí se pueden agregar dinámicamente campos de contacto -->
+            <!-- Ejemplo de un campo de contacto -->
+            <div>
+                <label for="tipoContacto">Tipo de Contacto:</label>
+                <select name="tipoContacto" required>
+                    <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+                </select>
+
+                <label for="descContacto">Descripción:</label>
+                <input type="text" name="descContacto" required>
+            </div>
+        </div>
+
+        <!-- Botón para agregar más contactos -->
+        <button type="button" id="agregarContacto">Agregar Contacto</button>
+
+        <!-- Direcciones: -->
+        <label>Direcciones:</label>
+        <div id="direcciones">
+            <!-- Aquí se pueden agregar dinámicamente campos de dirección -->
+            <!-- Ejemplo de un campo de dirección -->
+            <div>
+                <label for="direccion">Dirección:</label>
+                <input type="text" name="direccion" required>
+            </div>
+        </div>
+
+        <!-- Botón para agregar más direcciones -->
+        <button type="button" id="agregarDireccion">Agregar Dirección</button>
+
+        <button type="submit">Crear Persona</button>
+    </form>
+
+     <!-- Botón para ir atrás -->
+     <a href="/">Ir atrás</a>
+
+    <script>
+        // Lógica para agregar dinámicamente campos de contacto y dirección
+        // Puedes implementar esta parte según tus necesidades
+    </script>
+</body>
+</html>

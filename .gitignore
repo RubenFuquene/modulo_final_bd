@@ -1,0 +1,6 @@
+# Archivos generados por Node.js
+node_modules/
+
+# Para editores
+.vscode/
+.DS_Store
