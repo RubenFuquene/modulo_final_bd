@@ -1,16 +1,16 @@
-// Función para obtener tipos de personas desde la base de datos utilizando la conexión Singleton
+import { getAllTipoPersona } from '../models/tipoPersonaModel.mjs';
+
 export async function getTiposPersona(req, res) {
   try {
-    const query = 'SELECT IDTIPOPERSONA, DESCTIPOPERSONA FROM TIPOPERSONA';
-    const result = await req.db.execute(query);
+    const result = await getAllTipoPersona(req.db);
 
-    // Convertir el resultado a un formato adecuado
-    const tiposPersona = result.rows.map(row => ({
-      id: row[0],
-      descripcion: row[1],
-    }));
-
-    res.json(tiposPersona);
+    if (req.headers.accept && req.headers.accept.includes('application/json')) {
+      // Si la solicitud acepta JSON, responde con JSON
+      res.json(result);
+    } else {
+      // Si no, devuelve la colección
+      return result;
+    }
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Error al obtener tipos de personas');

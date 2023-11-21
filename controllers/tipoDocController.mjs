@@ -1,17 +1,18 @@
+import { getAllTipoDoc } from '../models/tipoDocModel.mjs';
+
 export async function getTiposDocumento(req, res) {
   try {
-    const query = 'SELECT IDTIPODOC, DESCTIPODOC FROM TIPODOC';
-    const result = await req.db.execute(query);
+    const result = await getAllTipoDoc(req.db);
 
-    // Convertir el resultado a un formato adecuado
-    const tiposDocumento = result.rows.map(row => ({
-      id: row[0],
-      descripcion: row[1],
-    }));
-
-    res.json(tiposDocumento);
+    if (req.headers.accept && req.headers.accept.includes('application/json')) {
+      // Si la solicitud acepta JSON, responde con JSON
+      res.json(result);
+    } else {
+      // Si no, devuelve la colección
+      return result;
+    }
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Error al obtener tipos de documentos');
+    res.status(500).send('Error al obtener tipos de personas');
   }
 }

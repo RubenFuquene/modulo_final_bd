@@ -17,12 +17,16 @@
 
         <label for="tipoPersona">Tipo de Persona:</label>
         <select id="tipoPersona" name="tipoPersona" required>
-            <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+            <% tiposPersona.forEach(tipo => { %>
+                <option value="<%= tipo.id %>"><%= tipo.descripcion %></option>
+            <% }); %>
         </select>
 
         <label for="tipoDocumento">Tipo de Documento:</label>
         <select id="tipoDocumento" name="tipoDocumento" required>
-            <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+            <% tiposDocumento.forEach(tipo => { %>
+                <option value="<%= tipo.id %>"><%= tipo.descripcion %></option>
+            <% }); %>
         </select>
 
         <label>Contactos:</label>
@@ -32,7 +36,9 @@
             <div>
                 <label for="tipoContacto">Tipo de Contacto:</label>
                 <select name="tipoContacto" required>
-                    <!-- Aquí se llenará dinámicamente con datos de la base de datos -->
+                    <% tiposContacto.forEach(tipo => { %>
+                        <option value="<%= tipo.id %>"><%= tipo.descripcion %></option>
+                    <% }); %>
                 </select>
 
                 <label for="descContacto">Descripción:</label>
@@ -65,7 +71,6 @@
 
     <script>
         // Lógica para agregar dinámicamente campos de contacto y dirección
-        // Puedes implementar esta parte según tus necesidades
     </script>
 </body>
 </html>
