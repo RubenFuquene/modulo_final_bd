@@ -20,7 +20,14 @@ app.set('views', path.join(dirname(fileURLToPath(import.meta.url)), 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware para servir archivos estáticos
-app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), 'public')));
+app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), 'public'), {
+  extensions: ['html', 'htm', 'mjs'], // Agrega 'mjs' a las extensiones permitidas
+  setHeaders: (res, path, stat) => {
+    if (path.endsWith('.mjs')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  },
+}));
 
 // Middleware para conectar a la base de datos en cada solicitud
 app.use(async (req, res, next) => {
