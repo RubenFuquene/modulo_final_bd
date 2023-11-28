@@ -18,6 +18,7 @@ app.set('views', path.join(dirname(fileURLToPath(import.meta.url)), 'views'));
 
 // Middleware para manejar datos del formulario
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), 'public'), {
@@ -58,9 +59,13 @@ app.use((req, res, next) => {
 // Importar y usar los enrutadores
 import indexRouter from './routes/index.mjs';
 import gets from './routes/gets.mjs';
+import personas from './routes/personas.mjs';
+import contactos from './routes/contactos.mjs';
 
 app.use('/', indexRouter);
 app.use('/api', gets);
+app.use('/personas', personas);
+app.use('/contactos', contactos);
 
 // Manejo de errores 404
 app.use((req, res, next) => {

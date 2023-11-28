@@ -8,7 +8,10 @@
 <body>
     <h1><%= title %></h1>
 
-    <form action="/crear-persona" method="post">
+    <!-- div para mostrar mensajes -->
+    <div id="mensajeContainer"></div>
+
+    <form id="formularioPersonas" action="/personas/crear-persona" method="post">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
 
@@ -28,6 +31,9 @@
                 <option value="<%= tipo.id %>"><%= tipo.descripcion %></option>
             <% }); %>
         </select>
+
+        <label for="numeroDocumento">Número de documento:</label>
+        <input type="text" id="numeroDocumento" name="numeroDocumento" required>
 
         <label>Contactos:</label>
         <div id="contactos">

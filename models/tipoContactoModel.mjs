@@ -16,3 +16,28 @@ export async function getAllTipoContacto(db) {
     throw new Error('Error al obtener tipos de contacto');
   }
 }
+
+// Función para obtener un tipo de contacto por id
+export async function getTipoContactoPorId(db, idTipoContacto) {
+  try {
+    const query = `
+      SELECT IDTIPOCONTACTO, DESCTIPOCONTACTO FROM TIPOCONTACTO
+      WHERE IDTIPOCONTACTO = :idTipoContacto
+    `;
+
+    const binds = {
+      idTipoContacto: idTipoContacto
+    };
+
+    const options = {
+      outFormat: db.OBJECT
+    };
+
+    const result = await db.execute(query, binds, options);
+
+    return result.rows[0]; // Devuelve la primera fila (debería ser única por la clave primaria)
+  } catch (error) {
+    console.error('Error al obtener tipo de contacto por ID:', error);
+    throw error;
+  }
+}
