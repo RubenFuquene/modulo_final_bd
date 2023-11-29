@@ -1,3 +1,4 @@
+<!-- realizarVenta.ejs -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +9,53 @@
 <body>
     <h1><%= title %></h1>
 
+    <form id="formularioFactura" action="#" method="POST">
+        <!-- Campo para el numero de factura -->
+        <label for="numeroFactura">Factura número</label>
+        <input type="text" id="numeroFactura" name="numeroFactura", value="<%= numeroFactura %>" required, readonly>
+
+        <!-- Campo para el documento de la persona -->
+        <label for="persona">Documento del <%= personaObjetivo %></label>
+        <input type="text" id="persona" name="persona" required>
+
+        <div id="productosContainer">
+            <!-- Contenedor para productos -->
+            <div class="producto">
+                <!-- Campo para el código del producto -->
+                <label for="codigoProducto">Código del Producto:</label>
+                <input type="text" class="codigoProducto" name="codigoProducto" required>
+
+                <!-- Campo para el nombre del producto -->
+                <label for="nombreProducto">Nombre del Producto:</label>
+                <input type="text" class="nombreProducto" name="nombreProducto" readonly>
+
+                <!-- Cantidad de productos -->
+                <label for="cantidadProductos">Cantidad de Productos:</label>
+                <input type="number" class="cantidadProductos" name="cantidadProductos" required>
+
+                <!-- Campo para el precio -->
+                <label for="precioProducto">Precio del Producto:</label>
+                <input type="text" class="precioProducto" name="precioProducto" readonly>
+            </div>
+        </div>
+
+        <!-- Campo para el total de la factura -->
+        <label for="total">Total:</label>
+        <input type="text" id="total" name="total" required>
+
+        <!-- Botón para totalizar factura -->
+        <button type="button" id="agregarProducto">Agregar Producto</button>
+
+        <!-- Botón para totalizar factura -->
+        <button type="button" id="totalizar">Totalizar Factura</button>
+
+        <!-- Botón para guardar factura -->
+        <button type="submit">Guardar</button>
+    </form>
+
     <!-- Botón para ir atrás -->
-    <a href="/">Ir atrás</a>
+    <a href="/home">Ir atrás</a>
+
+    <script src="/js/crearFactura.mjs" data-valorcampo="<%= valorCampo %>" id="realizarVentaScript"></script>
 </body>
 </html>

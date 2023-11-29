@@ -44,7 +44,7 @@ export async function getPersonaPorDocumento(db, numeroDocumento) {
       numeroDocumento: numeroDocumento,
     };
 
-    // Ejecuta la consulta y obtén los resultados
+    // Ejecuta la consulta y obtiene los resultados
     const result = await db.execute(query, binds);
 
     // Verifica si se encontró la persona

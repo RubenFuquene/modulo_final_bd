@@ -6,6 +6,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import database from './config/db.mjs';
 import config from './config/config.mjs';
+import session from 'express-session';
 
 // Crear una instancia de la aplicación Express
 const app = express();
@@ -56,18 +57,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Configuración de express-session
+app.use(session({
+  secret: 'mi_cookie',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 // Importar y usar los enrutadores
 import indexRouter from './routes/index.mjs';
+import empleados from './routes/empleados.mjs';
 import gets from './routes/gets.mjs';
 import personas from './routes/personas.mjs';
 import contactos from './routes/contactos.mjs';
 import componentesDirecc from './routes/componentesDirecc.mjs';
+import facturas from './routes/facturas.mjs';
+import productos from './routes/productos.mjs';
 
 app.use('/', indexRouter);
+app.use('/empleados', empleados);
 app.use('/api', gets);
 app.use('/personas', personas);
 app.use('/contactos', contactos);
 app.use('/comp-dir', componentesDirecc);
+app.use('/facturas', facturas);
+app.use('/productos', productos);
 
 // Manejo de errores 404
 app.use((req, res, next) => {

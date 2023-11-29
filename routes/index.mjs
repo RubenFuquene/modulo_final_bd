@@ -11,9 +11,14 @@ const router = express.Router();
 
 // Definir rutas
 
-// Ruta principal
+// Ruta principal (Logueo)
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Mi Aplicación Express' });
+  res.render('login');
+});
+
+// Home
+router.get('/home', (req, res) => {
+  res.render('home');
 });
 
 // Ruta para la creación de persona

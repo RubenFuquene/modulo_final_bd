@@ -58,22 +58,20 @@
         <label>Direcciones:</label>
         <div id="direcciones">
             <div>
-                <% componentesConNomenclaturas.forEach((componente, index) => { %>
-                    <div>            
-                        <% if (componente.nomenclaturas && componente.nomenclaturas.length > 0) { %>
-                            <!-- Si hay nomenclaturas, crear un select -->
-                            <label for="<%= index + '.' + componente.POSICION %>"><%= componente.DESCPOSICION %></label>
-                            <select name="<%= index + '.' + componente.POSICION %>">
-                                <% componente.nomenclaturas.forEach(nomenclatura => { %>
-                                <option value="<%= nomenclatura.IDNOMEN %>"><%= nomenclatura.DESCNOMEN %></option>
-                                <% }); %>
-                            </select>
-                        <% }else{ %>
-                            <label for="<%= index + '.' + componente.POSICION %>"><%= componente.DESCPOSICION %>:</label>
-                            <input type="text" name="<%= index + '.' + componente.POSICION %>" required>
-                        <% } %>
-                    </div>
-                  <% }); %>
+                <% componentesConNomenclaturas.forEach((componente, index) => { %>          
+                    <% if (componente.nomenclaturas && componente.nomenclaturas.length > 0) { %>
+                        <!-- Si hay nomenclaturas, crear un select -->
+                        <label for="<%= componente.POSICION %>"><%= componente.DESCPOSICION %></label>
+                        <select name="<%= componente.POSICION %>">
+                            <% componente.nomenclaturas.forEach(nomenclatura => { %>
+                            <option value="<%= nomenclatura.IDNOMEN %>"><%= nomenclatura.DESCNOMEN %></option>
+                            <% }); %>
+                        </select>
+                    <% }else{ %>
+                        <label for="<%= componente.POSICION %>"><%= componente.DESCPOSICION %>:</label>
+                        <input type="text" name="<%= componente.POSICION %>" required>
+                    <% } %>
+                <% }); %>
             </div>
         </div>
 
@@ -84,7 +82,7 @@
     </form>
 
      <!-- Botón para ir atrás -->
-     <a href="/">Ir atrás</a>
+     <a href="/home">Ir atrás</a>
 
      <script src="/js/crearPersona.mjs"></script>
 </body>

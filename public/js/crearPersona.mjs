@@ -74,17 +74,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     const componentes = await response.json();
     
     componentes.forEach((componente, index) => {
-      const nuevoComponente = document.createElement('div');
-
       // Crear la etiqueta para el componente
       const nuevaLabelComponente = document.createElement('label');
-      nuevaLabelComponente.for = index + '.' + componente.POSICION;
+      nuevaLabelComponente.for = componente.POSICION;
       nuevaLabelComponente.textContent = componente.DESCPOSICION;
 
       if(componente.nomenclaturas && componente.nomenclaturas.length > 0)
       {
         const nuevoSelectComponente = document.createElement('select');
-        nuevoSelectComponente.name = index + '.' + componente.POSICION;
+        nuevoSelectComponente.name = componente.POSICION;
 
         // Agregar las opciones al select de nomenclaturas
         componente.nomenclaturas.forEach((nomenclatura) => {
@@ -95,21 +93,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
 
         // Agregar los elementos de dirección al nuevo div
-        nuevoComponente.appendChild(nuevaLabelComponente);
-        nuevoComponente.appendChild(nuevoSelectComponente);
+        nuevaDireccionDiv.appendChild(nuevaLabelComponente);
+        nuevaDireccionDiv.appendChild(nuevoSelectComponente);
       }else{
         // Crear el input para el componente
         const nuevoInputComponente = document.createElement('input');
         nuevoInputComponente.type = 'text';
-        nuevoInputComponente.name = index + '.' + componente.POSICION;
+        nuevoInputComponente.name = componente.POSICION;
         nuevoInputComponente.required = true;
 
         // Agregar los al nuevo div
-        nuevoComponente.appendChild(nuevaLabelComponente);
-        nuevoComponente.appendChild(nuevoInputComponente);
+        nuevaDireccionDiv.appendChild(nuevaLabelComponente);
+        nuevaDireccionDiv.appendChild(nuevoInputComponente);
       }
-
-      nuevaDireccionDiv.appendChild(nuevoComponente);
     });
 
     // Agregar la nueva dirección al contenedor de direcciones
@@ -137,46 +133,46 @@ document.addEventListener('DOMContentLoaded', async function () {
     const contactos = [];
     const contactosDivs = document.querySelectorAll('#contactos > div');
     contactosDivs.forEach(div => {
-        const tipoContacto = div.querySelector('[name="tipoContacto"]').value;
-        const descContacto = div.querySelector('[name="descContacto"]').value;
-        contactos.push({ tipoContacto, descContacto });
+      const tipoContacto = div.querySelector('[name="tipoContacto"]').value;
+      const descContacto = div.querySelector('[name="descContacto"]').value;
+      contactos.push({ tipoContacto, descContacto });
     });
 
     // Obtiene los datos de las direcciones
     const direcciones = [];
     const direccionesDivs = document.querySelectorAll('#direcciones > div');
     direccionesDivs.forEach(div => {
-      const componenteLabel = div.querySelector('label');
-      const nombreComponente = componenteLabel.textContent.trim();
-      
-      // Verifica si el componente es un input de texto o un select
-      const inputTexto = div.querySelector('input[type="text"]');
-      const selectNomenclatura = div.querySelector('select');
-  
-      if (inputTexto) {
-          // Si es un input de texto
-          const valorInputTexto = inputTexto.value;
-          direcciones.push({ nombreComponente, valorInputTexto });
-      } else if (selectNomenclatura) {
-          // Si es un select
-          const valorSelectNomenclatura = selectNomenclatura.value;
-          direcciones.push({ nombreComponente, valorSelectNomenclatura });
-      }
-  });
+      const direccion = {}; // Objeto para almacenar los datos de la dirección
+
+      // Itera sobre los elementos hijos del div
+      div.childNodes.forEach(elemento => {
+          // Verifica si el elemento es un input o un select
+          if (elemento.tagName === 'SELECT' || elemento.tagName === 'INPUT')
+          {
+            const nombreCampo = elemento.getAttribute('name');
+            const valorCampo = (elemento.tagName === 'SELECT') ? elemento.value : elemento.value.trim();
+
+            direccion[nombreCampo] = valorCampo;
+          }
+      });
+
+      // Agrega la dirección al array de direcciones
+      direcciones.push(direccion);
+    });
 
     // Realiza la solicitud al servidor utilizando fetch
     const response = await fetch('/personas/crear-persona', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre,
-          apellido,
-          tipoPersona,
-          tipoDocumento,
-          numeroDocumento
-        }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre,
+        apellido,
+        tipoPersona,
+        tipoDocumento,
+        numeroDocumento
+      }),
     });
     
     // Verifica si la solicitud al servidor fue exitosa
