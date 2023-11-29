@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 // Home
 router.get('/home', (req, res) => {
-  res.render('home');
+  res.render('home', {cargos: req.session.cargos});
 });
 
 // Ruta para la creación de persona

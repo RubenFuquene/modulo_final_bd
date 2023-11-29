@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+</head>
+<body>
+
+  <h1><%= title %></h1>
+
+  <!-- Formulario para buscar una factura -->
+  <form id="formularioBusqueda" action="#" method="POST">
+    <label for="numeroFactura">Número de Factura:</label>
+    <input type="text" id="numeroFactura" name="numeroFactura" required>
+    <button type="submit">Buscar Factura</button>
+  </form>
+
+  <!-- Tabla para mostrar los productos de la factura -->
+  <h2>Productos de la Factura</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <!-- Agrega más columnas según sea necesario -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se mostrarán los productos de la factura -->
+    </tbody>
+  </table>
+
+  <!-- Campo para el total de la factura -->
+  <label for="total">Total:</label>
+  <input type="text" id="total" name="total" readonly>
+
+  <!-- Botón para agregar más direcciones -->
+  <button type="button" id="iniciarDevolución">Iniciar Devolución</button>
+
+  <!-- Botón para ir atrás -->
+  <a href="/home">Ir atrás</a>
+
+  <script src="/js/crearDevolucion.mjs" data-valorcampo="<%= valorCampo %>" id="realizarVentaScript"></script>
+
+</body>
+</html>

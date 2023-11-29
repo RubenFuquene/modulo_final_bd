@@ -1,13 +1,27 @@
 import { insertarPersona, getPersonaPorDocumento } from '../models/personaModel.mjs';
+import { agregarDireccion } from '../models/direccionModelo.mjs';
 
 // Define la ruta para crear una persona
 export async function crearPersona(req, res) {
   try {
     // Recuperar los datos del cuerpo del formulario
-    const { nombre, apellido, tipoPersona, tipoDocumento, numeroDocumento } = req.body;
+    const { nombre, apellido, tipoPersona, tipoDocumento, numeroDocumento, direcciones } = req.body;
 
     // Realizar la inserción en la base de datos utilizando tu modelo
     const resultado = await insertarPersona(req.db, nombre, apellido, tipoPersona, tipoDocumento, numeroDocumento);
+
+    direcciones.forEach(async (direccion, index) => {
+      const detalles = {
+        posicion: index,
+        idNomen: direccion,
+        idTipoDoc: tipoDocumento,
+        idTipoPersona: tipoPersona,
+        nDocumento: numeroDocumento,
+        valorDireccion: direccion,
+      };
+
+      await agregarDireccion(req.db, detalles);
+    });
 
     res.json({ mensaje: 'Persona creada exitosamente', resultado });
   } catch (error) {

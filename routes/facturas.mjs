@@ -1,6 +1,6 @@
 import express from 'express';
 import { asyncMiddleware } from '../config/middlewares.mjs';
-import { crearFacturaController, getNuevoNumeroFactura } from '../controllers/facturaController.mjs';
+import { crearFacturaController, getNuevoNumeroFactura, getFacturaPorNumero } from '../controllers/facturaController.mjs';
 
 // Crear un enrutador de Express
 const router = express.Router();
@@ -16,14 +16,17 @@ router.get('/realizar-compra', asyncMiddleware(async (req, res) => {
 }));
 
 router.get('/devolucion-venta', (req, res) => {
-  res.render('devolucionVenta');
+  res.render('crearDevolucion', {title: 'Devolucion de venta', valorCampo: 'VENTA'});
 });
 
 router.get('/devolucion-compra', (req, res) => {
-  res.render('devolucionCompra');
+  res.render('crearDevolucion', {title: 'Devolucion de compra', valorCampo: 'COMPRA'});
 });
 
 router.post('/crear-factura', crearFacturaController);
+
+//Ruta para traer una factura
+router.get('/get-factura/:numeroFactura', getFacturaPorNumero)
 
 // Exportar el enrutador
 export default router;

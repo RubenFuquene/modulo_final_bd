@@ -7,11 +7,7 @@ export async function getComponentesConNomenclaturas(db) {
       ORDER BY CD.POSICION
     `;
 
-    const options = {
-      outFormat: db.OBJECT
-    };
-
-    const result = await db.execute(query, [], options);
+    const result = await db.execute(query, []);
     
     // Organiza los resultados en dos niveles (componentes y nomenclaturas)
     const componentesConNomenclaturas = {};
@@ -35,10 +31,12 @@ export async function getComponentesConNomenclaturas(db) {
 
       // Agrega la nomenclatura al componente
       if(IDNOMEN && DESCNOMEN)
+      {
         componentesConNomenclaturas[POSICION].nomenclaturas.push({
           IDNOMEN,
           DESCNOMEN
         });
+      }
     });
 
     // Convierte el objeto en un array para tener un formato más estándar si es necesario

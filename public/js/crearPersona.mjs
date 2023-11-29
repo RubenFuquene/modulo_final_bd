@@ -171,7 +171,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         apellido,
         tipoPersona,
         tipoDocumento,
-        numeroDocumento
+        numeroDocumento,
+        direcciones
       }),
     });
     

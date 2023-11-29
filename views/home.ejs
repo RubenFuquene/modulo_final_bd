@@ -8,19 +8,28 @@
 <body>
     <h1>MODULO BD</h1>
 
-    <!-- Enlace para crear una persona -->
+    <!-- Enlaces que se mostrarán para todos los usuarios -->
     <a href="/crear-persona">Crear Persona</a>
 
-    <!-- Enlace para realizar una venta -->
-    <a href="/facturas/realizar-venta">Realizar Venta</a>
+    <% if (cargos.some(cargo => cargo.nomcargo === 'Vendedor')) { %>
+        <!-- Enlace para realizar una venta -->
+        <a href="/facturas/realizar-venta">Realizar Venta</a>
+    <% } %>
 
-    <!-- Enlace para realizar una compra -->
-    <a href="/facturas/realizar-compra">Realizar Compra</a>
+    <% if (cargos.some(cargo => cargo.nomcargo === 'Auxiliar de Compras')) { %>
+        <!-- Enlace para realizar una compra -->
+        <a href="/facturas/realizar-compra">Realizar Compra</a>
+    <% } %>
 
-    <!-- Enlace para devolución de compra -->
-    <a href="/facturas/devolucion-compra">Devolución de Compra</a>
+    <% if (cargos.some(cargo => cargo.nomcargo === 'Director de Compras')) { %>
+        <!-- Enlace para devolución de compra -->
+        <a href="/facturas/devolucion-compra">Devolución de Compra</a>
+    <% } %>
 
-    <!-- Enlace para devolución de venta -->
-    <a href="/facturas/devolucion-venta">Devolución de Venta</a>
+    <% if (cargos.some(cargo => cargo.nomcargo === 'Representante de Ventas')) { %>
+        <!-- Enlace para devolución de venta -->
+        <a href="/facturas/devolucion-venta">Devolución de Venta</a>
+    <% } %>
+
 </body>
 </html>

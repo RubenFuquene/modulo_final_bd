@@ -13,14 +13,14 @@ export async function obtenerUltimoPrecioEInventario(db, refProducto) {
           JOIN INVENTARIO I ON HP.REFPRODUCTO = I.REFPRODUCTO
           JOIN PRODUCTO P ON HP.REFPRODUCTO = P.REFPRODUCTO
         WHERE
-          HP.REFPRODUCTO LIKE :refProducto
+          HP.REFPRODUCTO = :refProducto
           AND HP.FECHAFIN IS NULL
         ORDER BY
           I.FECHAINVE DESC
         FETCH FIRST 1 ROW ONLY`;
 
       const binds = {
-          refProducto: '%' + refProducto + '%'
+          refProducto: refProducto
       };
 
       const result = await db.execute(query, binds);

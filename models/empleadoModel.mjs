@@ -29,7 +29,7 @@ export async function login(db, codeEmpleado) {
 
 async function obtenerCargos(db, codeEmpleado) {
   try {
-    const query = `SELECT C.NOMCARGO FROM CARGO C
+    const query = `SELECT C. CODCARGO, C.NOMCARGO FROM CARGO C
                    INNER JOIN EMPLEADOCARGO EC ON C.CODCARGO = EC.CODCARGO
                    WHERE EC.CODEMPLEADO = :codeEmpleado`;
 
@@ -40,7 +40,17 @@ async function obtenerCargos(db, codeEmpleado) {
     const result = await db.execute(query, binds);
 
     if (result.rows.length > 0) {
-      return result.rows.map(row => row.NOMCARGO);
+      const cargosConClaveValor = [];
+      
+      result.rows.forEach(row => {
+        const codcargo = row[0];
+        const nomcargo = row[1];
+
+        // Agrega el cargo al objeto con clave: valor
+        cargosConClaveValor.push({codcargo, nomcargo});
+      });
+
+      return cargosConClaveValor;
     } else {
       return []; // No se encontraron cargos para el empleado
     }
