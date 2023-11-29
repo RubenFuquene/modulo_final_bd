@@ -38,7 +38,6 @@
         <label>Contactos:</label>
         <div id="contactos">
             <!-- Aquí se pueden agregar dinámicamente campos de contacto -->
-            <!-- Ejemplo de un campo de contacto -->
             <div>
                 <label for="tipoContacto">Tipo de Contacto:</label>
                 <select name="tipoContacto" required>
@@ -58,11 +57,23 @@
         <!-- Direcciones: -->
         <label>Direcciones:</label>
         <div id="direcciones">
-            <!-- Aquí se pueden agregar dinámicamente campos de dirección -->
-            <!-- Ejemplo de un campo de dirección -->
             <div>
-                <label for="direccion">Dirección:</label>
-                <input type="text" name="direccion" required>
+                <% componentesConNomenclaturas.forEach((componente, index) => { %>
+                    <div>            
+                        <% if (componente.nomenclaturas && componente.nomenclaturas.length > 0) { %>
+                            <!-- Si hay nomenclaturas, crear un select -->
+                            <label for="<%= index + '.' + componente.POSICION %>"><%= componente.DESCPOSICION %></label>
+                            <select name="<%= index + '.' + componente.POSICION %>">
+                                <% componente.nomenclaturas.forEach(nomenclatura => { %>
+                                <option value="<%= nomenclatura.IDNOMEN %>"><%= nomenclatura.DESCNOMEN %></option>
+                                <% }); %>
+                            </select>
+                        <% }else{ %>
+                            <label for="<%= index + '.' + componente.POSICION %>"><%= componente.DESCPOSICION %>:</label>
+                            <input type="text" name="<%= index + '.' + componente.POSICION %>" required>
+                        <% } %>
+                    </div>
+                  <% }); %>
             </div>
         </div>
 

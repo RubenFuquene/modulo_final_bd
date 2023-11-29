@@ -61,11 +61,13 @@ import indexRouter from './routes/index.mjs';
 import gets from './routes/gets.mjs';
 import personas from './routes/personas.mjs';
 import contactos from './routes/contactos.mjs';
+import componentesDirecc from './routes/componentesDirecc.mjs';
 
 app.use('/', indexRouter);
 app.use('/api', gets);
 app.use('/personas', personas);
 app.use('/contactos', contactos);
+app.use('/comp-dir', componentesDirecc);
 
 // Manejo de errores 404
 app.use((req, res, next) => {

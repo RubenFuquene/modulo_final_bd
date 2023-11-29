@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
+  //---------------------------------------------------------------------------------------------------------------------------------//
+  //-----------------------------------------------      Botón "Agregar Contacto"      ----------------------------------------------//
+
+
   // Obtener el contenedor de contactos y el botón "Agregar Contacto"
   const contactosContainer = document.getElementById('contactos');
   const agregarContactoBtn = document.getElementById('agregarContacto');
@@ -48,32 +53,71 @@ document.addEventListener('DOMContentLoaded', async function () {
       contactosContainer.appendChild(nuevoContactoDiv);
   });
 
+  //---------------------------------------------------------------------------------------------------------------------------------//
+  //-----------------------------------------------      Botón "Agregar Dirección"      ---------------------------------------------//
+
   // Obtener el contenedor de direcciones y el botón "Agregar Dirección"
   const direccionesContainer = document.getElementById('direcciones');
   const agregarDireccionBtn = document.getElementById('agregarDireccion');
 
   // Manejar el clic en el botón "Agregar Dirección"
-  agregarDireccionBtn.addEventListener('click', function () {
+  agregarDireccionBtn.addEventListener('click', async function () {
     // Crear un nuevo elemento div para la nueva dirección
     const nuevaDireccionDiv = document.createElement('div');
 
-    // Crear la etiqueta y el input para la dirección
-    const nuevaLabel = document.createElement('label');
-    nuevaLabel.for = 'direccion';
-    nuevaLabel.textContent = 'Dirección:';
+    // Hacer la solicitud para obtener los componentes de dirección
+    const response = await fetch('/comp-dir/obtener-comp-dir-con-nom', {
+        headers: {
+        'Accept': 'application/json'
+        }
+    });
+    const componentes = await response.json();
+    
+    componentes.forEach((componente, index) => {
+      const nuevoComponente = document.createElement('div');
 
-    const nuevoInput = document.createElement('input');
-    nuevoInput.type = 'text';
-    nuevoInput.name = 'direccion';
-    nuevoInput.required = true;
+      // Crear la etiqueta para el componente
+      const nuevaLabelComponente = document.createElement('label');
+      nuevaLabelComponente.for = index + '.' + componente.POSICION;
+      nuevaLabelComponente.textContent = componente.DESCPOSICION;
 
-    // Agregar los elementos a la nueva dirección
-    nuevaDireccionDiv.appendChild(nuevaLabel);
-    nuevaDireccionDiv.appendChild(nuevoInput);
+      if(componente.nomenclaturas && componente.nomenclaturas.length > 0)
+      {
+        const nuevoSelectComponente = document.createElement('select');
+        nuevoSelectComponente.name = index + '.' + componente.POSICION;
+
+        // Agregar las opciones al select de nomenclaturas
+        componente.nomenclaturas.forEach((nomenclatura) => {
+          const nuevaOpcion = document.createElement('option');
+          nuevaOpcion.value = nomenclatura.IDNOMEN;
+          nuevaOpcion.textContent = nomenclatura.DESCNOMEN;
+          nuevoSelectComponente.appendChild(nuevaOpcion);
+        });
+
+        // Agregar los elementos de dirección al nuevo div
+        nuevoComponente.appendChild(nuevaLabelComponente);
+        nuevoComponente.appendChild(nuevoSelectComponente);
+      }else{
+        // Crear el input para el componente
+        const nuevoInputComponente = document.createElement('input');
+        nuevoInputComponente.type = 'text';
+        nuevoInputComponente.name = index + '.' + componente.POSICION;
+        nuevoInputComponente.required = true;
+
+        // Agregar los al nuevo div
+        nuevoComponente.appendChild(nuevaLabelComponente);
+        nuevoComponente.appendChild(nuevoInputComponente);
+      }
+
+      nuevaDireccionDiv.appendChild(nuevoComponente);
+    });
 
     // Agregar la nueva dirección al contenedor de direcciones
     direccionesContainer.appendChild(nuevaDireccionDiv);
   });
+
+  //---------------------------------------------------------------------------------------------------------------------------------//
+  //-------------------------------------------------      Control del formulario      ----------------------------------------------//
 
   const formulario = document.getElementById('formularioPersonas');
 
@@ -102,9 +146,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     const direcciones = [];
     const direccionesDivs = document.querySelectorAll('#direcciones > div');
     direccionesDivs.forEach(div => {
-        const direccion = div.querySelector('[name="direccion"]').value;
-        direcciones.push({ direccion });
-    });
+      const componenteLabel = div.querySelector('label');
+      const nombreComponente = componenteLabel.textContent.trim();
+      
+      // Verifica si el componente es un input de texto o un select
+      const inputTexto = div.querySelector('input[type="text"]');
+      const selectNomenclatura = div.querySelector('select');
+  
+      if (inputTexto) {
+          // Si es un input de texto
+          const valorInputTexto = inputTexto.value;
+          direcciones.push({ nombreComponente, valorInputTexto });
+      } else if (selectNomenclatura) {
+          // Si es un select
+          const valorSelectNomenclatura = selectNomenclatura.value;
+          direcciones.push({ nombreComponente, valorSelectNomenclatura });
+      }
+  });
 
     // Realiza la solicitud al servidor utilizando fetch
     const response = await fetch('/personas/crear-persona', {
